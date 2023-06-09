@@ -28,11 +28,14 @@ public class Enemy extends GameObject {
             }else
                 GameWin.state = 3;
         }
+        //超出屏幕后移除
         if(y> frame.HEIGHT){
             this.x = -100;
             this.y = 100;
             GameUtils.removeList.add(this);
         }
+
+        //敌方飞机与我方子弹的碰撞检测
         for(Shell shellObj:GameUtils.shellObjList){
             if(this.getRec().intersects(shellObj.getRec())){
                 Explode explode = new Explode(x+5,y);
