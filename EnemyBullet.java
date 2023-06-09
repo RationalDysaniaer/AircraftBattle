@@ -4,10 +4,11 @@ public class EnemyBullet extends GameObject {
     public EnemyBullet() {
         super();
     }
-    private int z;
-    private int speed2;
-    private int k;
+    private int z;//我方飞机在boos的左右方位
+    private int k;//斜率
     private int b;
+    private int speed2;//子弹横向速度
+
     public EnemyBullet(Image img, int x, int y, int width, int height, double speed,int z,int speed2,int k,int b,GameWin frame) {
         this.img = img;
         this.x = x;
@@ -25,20 +26,19 @@ public class EnemyBullet extends GameObject {
     @Override
     public void paintSelf(Graphics gImage) {
         super.paintSelf(gImage);
-
-
+        //第一阶段
         if(this.frame.boos.life > 200) {
             if(z == 1)
                 x += speed2;
             else if(z == 2)
                 x -= speed2;
             y += speed;
-        }
+        }//第二阶段
         else if(this.frame.boos.life > 100){
             y += 15;
             if(k != 0)
                 x = (y-b)/k;
-        }
+        }//第三阶段
         else{
             if(z == 1)
                 x += speed2;
@@ -48,7 +48,7 @@ public class EnemyBullet extends GameObject {
         }
 
 
-        //碰撞检测
+        //碰撞检测(地方子弹和我方飞机)
         if(this.getRec().intersects(this.frame.planeObj.getRec())){
             if(this.frame.planeObj.life >1){
                 if(this.frame.invincible == 0) {
