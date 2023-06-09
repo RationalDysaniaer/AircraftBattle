@@ -3,6 +3,7 @@ import java.awt.*;
 public class barrier extends GameObject{
     int life;
     int lifeMax;
+    //障碍状态 0-下降状态 1-生效状态 2-上升状态
     int state = 0;
     int Y = 0;
     public barrier() {
@@ -25,7 +26,7 @@ public class barrier extends GameObject{
     public void paintSelf(Graphics gImage) {
         gImage.drawImage(GameUtils.barrier1,x,Y,50,50,frame);
         gImage.drawImage(GameUtils.barrier2,x+150,Y,50,50,frame);
-
+        //下降状态
         if(Y<y && life == lifeMax)
             Y += speed;
         if(Y == y && life == lifeMax){
@@ -33,6 +34,7 @@ public class barrier extends GameObject{
             gImage.fillRect(x+50-5,Y+20,110,10);
             state = 1;
         }
+        //生效状态
         if(state == 1){
             gImage.setColor(Color.red);
             gImage.fillRect(x+50-5,Y+20,110,10);
@@ -57,6 +59,7 @@ public class barrier extends GameObject{
             gImage.setColor(Color.green);
             gImage.fillRect(x+70,y+40,life*n,5);
         }
+        //上升状态
         if(state == 2){
             Y -= speed;
             if(Y<-50){
