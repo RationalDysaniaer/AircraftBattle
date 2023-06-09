@@ -1,12 +1,13 @@
 import javax.sound.sampled.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Music {
     private Clip clip;
 
     public Music() {
         try {
-            File file = new File("C:\\Users\\ASUS\\JavaWorkspace\\untitled\\AircraftBattle\\src\\Music\\BackgroundMusic.wav");
+            File file = new File("src\\Music\\BackgroundMusic.wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
