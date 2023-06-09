@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameUtils {
-    public static String s = "untitled\\AircraftBattle\\src\\Images\\";
+    public static String s = "src\\Images\\";
     public static Image background = Toolkit.getDefaultToolkit().getImage(
             s + "background.jpg");
 
@@ -47,7 +47,7 @@ public class GameUtils {
     public static List<GameObject> removeList = new ArrayList<>();
     //敌方子弹集合
     public static List<EnemyBullet> enemyShellList = new ArrayList<>();
-    //
+    //爆炸类集合
     public static List<Explode> explodeList = new ArrayList<>();
 
     public static void drawWord(Graphics gImage,String str,Color color,int size,int x,int y){
