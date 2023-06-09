@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author RationalDysaniaer
@@ -21,17 +24,18 @@ public class GameWin extends JFrame {
     int count = 1;//时间计数
     int enemyCount = 0;//敌机数量
     static int score = 0;//得分
-    static int level = 1;
-    int levelProps = 0;
-    int lifeProps = 0;
-    int enhanceBoos = 0;
+    static int level = 1;//飞机等级
+    int levelProps = 0;//记录升级道具
+    int lifeProps = 0;//记录生命回复道具
+    int enhanceBoos = 0;//记录boos增强
+    //记录各阶段障碍
     int isBarrier1 = 0;
     int isBarrier2 = 0;
     int isBarrier3 = 0;
     int invincible = 0;//无敌
+    //技能次数
     int guard = 3;
     int cls = 3;
-    //将背景图片和我方飞机绘制到刚才创建的这块缓冲区上
 
     Background background = new Background(GameUtils.background, 0, -400, 2);
     Background background2 = new Background(GameUtils.background2, 0, -1600, 2);
@@ -40,7 +44,9 @@ public class GameWin extends JFrame {
     //创建boos空对象
     public Boos boos = null;
 
+    //重新开始游戏，数据初始化
     public void reGame(){
+        //所有数据初始化
         count = 1;
         enemyCount = 0;
         score = 0;
@@ -89,6 +95,7 @@ public class GameWin extends JFrame {
             gImage.drawImage(GameUtils.title,(600-475)/2-12,80,this);
             GameUtils.drawWord(gImage,"<点击屏幕开始游戏>",Color.yellow,40,112,400);
         }
+
         //游戏运行
         if(state == 1){
             GameUtils.gameObjectList.addAll(GameUtils.explodeList);//？？？？
@@ -98,6 +105,7 @@ public class GameWin extends JFrame {
             GameUtils.heartShow(gImage, planeObj.life,this);
             GameUtils.gameObjectList.removeAll(GameUtils.removeList);
         }
+
         //游戏失败
         if(state == 3){
             for (int i = 0; i < GameUtils.gameObjectList.size(); i++) {
@@ -110,9 +118,11 @@ public class GameWin extends JFrame {
         }
         //游戏胜利
         if(state == 4){
+            //遍历并绘制列表中的元素
             for (int i = 0; i < GameUtils.gameObjectList.size(); i++) {
                 GameUtils.gameObjectList.get(i).paintSelf(gImage);
             }
+            //绘制爆炸类图像
             gImage.drawImage(GameUtils.ExplodeBig, boos.getX()-10, boos.getY()-10,this);
             GameUtils.heartShow(gImage, planeObj.life,this);
             GameUtils.drawWord(gImage,"VICTORY!",Color.yellow,60,160,330);
@@ -162,14 +172,21 @@ public class GameWin extends JFrame {
     }
 
     public void launch(){
+        //创建音乐类对象，播放背景音乐
         Music music = new Music();
         music.play();
-        this.setSize(WIDTH,HEIGHT);//窗口大小
-        this.setLocationRelativeTo(null);//窗口居中
+        //窗口大小
+        this.setSize(WIDTH,HEIGHT);
+        //窗口居中
+        this.setLocationRelativeTo(null);
+        //设置标题
         this.setTitle("飞机大战");
+        //窗口可见
         this.setVisible(true);
-        this.setResizable(false);//不可改变大小
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//关闭游戏结束程序
+        //设置窗口不可改变大小
+        this.setResizable(false);
+        //关闭游戏时结束程序
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         GameUtils.gameObjectList.add(background);
         GameUtils.gameObjectList.add(background2);
@@ -207,7 +224,8 @@ public class GameWin extends JFrame {
                     }
                 }
                 if(e.getKeyCode() == 67){
-                    if(guard > 0){
+                    //护盾数量大于零,并且不处于护盾技能释放阶段
+                    if(guard > 0 && invincible == 0){
                         guard--;
                         invincible = 1;
                         Thread th = new Thread(){
